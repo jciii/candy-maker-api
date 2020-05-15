@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const allConfigs = require('../configs/sequelize')
+const allConfigs = require('../config/sequelize')
 const ManufacturersModel = require('./manufacturers')
 const ProductsModel = require('./products')
 
@@ -19,4 +19,5 @@ Manufacturers.hasMany(Products)
 module.exports = {
   Manufacturers,
   Products,
+  Op: Sequelize.Op,
 }

@@ -8,17 +8,22 @@ const getAllProducts = async (request, response) => {
   return response.send(products)
 }
 
-const getProductsById = async (request, response) => {
-  const { id } = request.params
+const getProductsByName = async (request, response) => {
+  const { name } = request.params
 
   const product = await models.Products.findOne({
-    where: { id },
-    include: [{ model: models.Manufacturers }]
+    attributes: ['id', 'name', 'yearIntroduced'],
+    where: { name: { [models.Op.like]: `${name}%` } },
+    include: [{
+      attributes: ['id', 'name', 'country'],
+      model: models.Manufacturers
+    }]
   })
+
 
   return product
     ? response.send(product)
     : response.sendStatus(404)
 }
 
-module.exports = { getAllProducts, getProductsById }
+module.exports = { getAllProducts, getProductsByName }
